@@ -22,14 +22,14 @@ typedef struct h_table
     Entry **entries;
 } HashTable;
 
-HashTable *hashtableInit();
+HashTable *hashtable_init();
 
-void hashTableInsert(HashTable *table, char *key, void *value);
+void hashtable_insert(HashTable *table, char *key, void *value);
 
-void *hashTableGet(HashTable *table, char *key);
+void *hashtable_get(HashTable *table, char *key);
 
-void hashTableDelete(HashTable *table, char *key);
+void hashtable_delete(HashTable *table, char *key);
 
-void hashTableDestroy(HashTable *table);
+void hashtable_destroy(HashTable *table);
 
 #endif

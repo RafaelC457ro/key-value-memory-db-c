@@ -20,7 +20,7 @@
 
 // Return 64-bit FNV-1a hash for key (NUL-terminated). See description:
 // https:*en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function
-static uint64_t hashString(const char *key)
+static uint64_t hash_string(const char *key)
 {
     uint64_t hash = FNV_OFFSET;
     for (const char *p = key; *p; p++)
@@ -31,16 +31,7 @@ static uint64_t hashString(const char *key)
     return hash;
 }
 
-HashTable *hashtableInit()
-{
-    HashTable *table = malloc(sizeof(HashTable));
-    table->count = 0;
-    table->capacity = HASH_TABLE_INIT_SIZE;
-    table->entries = (Entry **)calloc(table->capacity, sizeof(Entry *));
-    return table;
-}
-
-static Entry *createEntry(char *key, void *value, Entry *next)
+static Entry *create_entry(char *key, void *value, Entry *next)
 {
     Entry *entry = (Entry *)malloc(sizeof(Entry));
     entry->key = key;
@@ -49,22 +40,22 @@ static Entry *createEntry(char *key, void *value, Entry *next)
     return entry;
 }
 
-static u_int64_t getIndex(HashTable *table, char *key)
+static u_int64_t get_index(HashTable *table, char *key)
 {
-    uint64_t hash = hashString(key);
+    uint64_t hash = hash_string(key);
     uint64_t index = hash % table->capacity;
     return index;
 }
 
-static void setEntry(HashTable *table, char *key, void *value)
+static void set_entry(HashTable *table, char *key, void *value)
 {
-    uint64_t index = getIndex(table, key);
+    uint64_t index = get_index(table, key);
 
     Entry *entry = table->entries[index];
 
     if (entry == NULL)
     {
-        entry = createEntry(key, value, NULL);
+        entry = create_entry(key, value, NULL);
         table->entries[index] = entry;
 
         return;
@@ -83,12 +74,12 @@ static void setEntry(HashTable *table, char *key, void *value)
             prev = entry;
             entry = (Entry *)entry->next;
         }
-        entry = createEntry(key, value, NULL);
+        entry = create_entry(key, value, NULL);
         prev->next = entry;
     }
 }
 
-static void expandHashTable(HashTable *table)
+static void expand_hashtable(HashTable *table)
 {
     int prevCapacity = table->capacity;
     Entry **prevEntries = table->entries;
@@ -101,7 +92,7 @@ static void expandHashTable(HashTable *table)
         Entry *entry = prevEntries[i];
         while (entry != NULL)
         {
-            setEntry(table, entry->key, entry->value);
+            set_entry(table, entry->key, entry->value);
             entry = entry->next;
         }
     }
@@ -109,7 +100,16 @@ static void expandHashTable(HashTable *table)
     free(prevEntries);
 }
 
-void hashTableDestroy(HashTable *table)
+HashTable *hashtable_init()
+{
+    HashTable *table = malloc(sizeof(HashTable));
+    table->count = 0;
+    table->capacity = HASH_TABLE_INIT_SIZE;
+    table->entries = (Entry **)calloc(table->capacity, sizeof(Entry *));
+    return table;
+}
+
+void hashtable_destroy(HashTable *table)
 {
     for (int i = 0; i < table->capacity; i++)
     {
@@ -128,23 +128,23 @@ void hashTableDestroy(HashTable *table)
     free(table);
 }
 
-void hashTableInsert(HashTable *table, char *key, void *value)
+void hashtable_insert(HashTable *table, char *key, void *value)
 {
     if (key == NULL || value == NULL)
         return;
 
     if (table->count >= table->capacity * HASH_TABLE_CAPACITY_TRASHOLD)
-        expandHashTable(table);
+        expand_hashtable(table);
 
-    setEntry(table, strdup(key), strdup(value));
+    set_entry(table, strdup(key), strdup(value));
     table->count++;
 }
 
-void *hashTableGet(HashTable *table, char *key)
+void *hashtable_get(HashTable *table, char *key)
 {
     if (key == NULL)
         return NULL;
-    uint64_t index = getIndex(table, key);
+    uint64_t index = get_index(table, key);
 
     Entry *entry = (Entry *)table->entries[index];
 
@@ -160,12 +160,12 @@ void *hashTableGet(HashTable *table, char *key)
     return NULL;
 }
 
-void hashTableDelete(HashTable *table, char *key)
+void hashtable_delete(HashTable *table, char *key)
 {
     if (key == NULL)
         return;
 
-    uint64_t index = getIndex(table, key);
+    uint64_t index = get_index(table, key);
 
     Entry *entry = (Entry *)table->entries[index];
     while (entry != NULL)
