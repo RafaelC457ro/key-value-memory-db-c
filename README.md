@@ -1,18 +1,75 @@
 # Key-Value in memory database
 
 This project is a experimental key-value in memory database, written in C.
-My goal is to learn more about C Development.
+It's far from being a production ready database, but it's a good way to learn.
+There is some features that I want to implement in the future, like:
 
-## Todo
+- Configurable parameters like port, max connections, etc.
+- Better error handling
+- Better logging
+- Stats
+- Rewrite some parts to better legibility
 
-- [x] Implement and test a hash table
-  - [x] implement resize
-  - [x] implement get, set
-  - [x] implement delete
-  - [x] test the implementation
-- [x] Implement a server
-- [x] Implement a token interpreter
-- [x] join all together
-- [] implement some tests for specific cases
-- [] run Valgrind to check for memory leaks
-- [] run Clang Static Analyzer to check for bugs take a look on perf and gprof
+## Install
+
+## Linux
+
+```sh
+sudo apt install build-essential cmake python3
+```
+
+## Mac
+
+```sh
+xcode-select --install
+brew install cmake
+brew install python3
+```
+
+## Build
+
+```sh
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## Test
+
+```sh
+cd build\
+make test
+```
+
+run the integration test make sure that the server is running and then:
+
+```sh
+python3 ../test/integration/client.py
+```
+
+## Usage
+
+```sh
+./bin/mendb
+```
+
+in other terminal
+
+```sh
+nc localhost 8080
+SET key value
+OK
+
+GET key
+"value"
+
+DELETE key
+
+GET key
+(nil)
+```
+
+## License
+
+MIT License © [Rafael Castro](https://github.com/rafaelc457ro)
