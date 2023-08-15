@@ -144,6 +144,8 @@ void destroy_command(Command *cmd)
     {
         free(cmd->value);
     }
+
+    free(cmd);
 }
 
 static void s_to_lower_case(char *str)

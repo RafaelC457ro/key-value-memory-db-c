@@ -134,7 +134,7 @@ void comand_handler(char *input, char *response)
         sprintf(response, "Invalid command\n");
     }
 
-    free(command);
+    destroy_command(command);
 }
 
 void client_handler(int client_socket)
