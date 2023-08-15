@@ -40,7 +40,7 @@ def run_test(host, port, client_id, success_flag):
                 expected_response = expected_responses[i]
                 
                 if response != expected_response:
-                    success_flag[client_id] = False  # Update success_flag if response is incorrect
+                    success_flag[client_id] = False  
                 
                     print(f"Command sent: {full_command[:-1]}")
                     print(f"Expected response: {expected_response}")
@@ -58,9 +58,9 @@ def main():
     host= "127.0.0.1"
     port = 8080
     num_connections = 1024
-    success_flag = [True] * num_connections  # Initialize all threads as successful
+    success_flag = [True] * num_connections  
     threads = []
-    start_time = time.time()  # Record the start time
+    start_time = time.time() 
     
     threads = []
     for i in range(num_connections):
@@ -71,7 +71,7 @@ def main():
     for thread in threads:
         thread.join()
 
-    end_time = time.time()  # Record the end time
+    end_time = time.time()  
     elapsed_time = end_time - start_time
     print(f"Total elapsed time for all threads: {elapsed_time:.4f} seconds")
 
@@ -79,10 +79,10 @@ def main():
 
     if all(success_flag):
         print(f"All {num_connections} threads ran successfully.")
-        sys.exit(0)  # Exit with success status code
+        sys.exit(0)  
     else:
         print(f"{success_count} out of {num_connections} threads ran successfully.")
-        sys.exit(1)  # Exit with failure status code
+        sys.exit(1)  
 
    
 if __name__ == "__main__":

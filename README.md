@@ -65,6 +65,7 @@ GET key
 "value"
 
 DELETE key
+OK
 
 GET key
 (nil)
