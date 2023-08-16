@@ -45,7 +45,7 @@ make test
 run the integration test make sure that the server is running and then:
 
 ```sh
-python3 ../test/integration/client.py
+python3 ./scripts/client.py
 ```
 
 ## Usage
