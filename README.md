@@ -42,7 +42,7 @@ cd build\
 make test
 ```
 
-run the integration test make sure that the server is running and then:
+In order to run the integration test make sure that the server is running and then:
 
 ```sh
 python3 ./scripts/client.py
