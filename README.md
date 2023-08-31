@@ -1,8 +1,9 @@
 # Key-Value in memory database
 
 This project is a experimental key-value in memory database, written in C.
-It's far from being a production ready database, but it's a good way to learn.
-There is some features that I want to implement in the future, like:
+It's far from being a production ready database, but at least for me, it
+was a good way to learn more about C. There is some features that I want
+to implement in the future, like:
 
 - Configurable parameters like port, max connections, etc.
 - Better error handling

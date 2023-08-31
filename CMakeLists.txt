@@ -1,6 +1,9 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.19)
 
-project(memdb)
+project(memdb VERSION 0.1.0 LANGUAGES C)
+
+# set c target to C99
+set(CMAKE_C_STANDARD 99)
 
 enable_testing()
 
